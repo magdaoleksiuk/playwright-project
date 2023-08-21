@@ -1,96 +1,92 @@
-const {test, expect} = require('@playwright/test');
+const { test, expect } = require('@playwright/test');
+const { dropdown } = require('./dropdownsCheckboxesRadiobuttons-page');
 
-test('Verifying 1st dropdown content', async ({browser})=>
-{
-    const context = await browser.newContext();
-    const page = await context.newPage();
-    await page.goto("https://webdriveruniversity.com/Dropdown-Checkboxes-RadioButtons/index.html");
-    await page.locator('select#dropdowm-menu-1').selectOption('java');
-    await expect(page.locator('select.dropdown-menu-lists').nth(0)).toContainText('JAVA');
-    await page.locator('select#dropdowm-menu-1').selectOption('C#');
-    await expect(page.locator('select.dropdown-menu-lists').nth(0)).toContainText('C#');
-    await page.locator('select#dropdowm-menu-1').selectOption('python');
-    await expect(page.locator('select.dropdown-menu-lists').nth(0)).toContainText('Python');
-    await page.locator('select#dropdowm-menu-1').selectOption('sql');
-    await expect(page.locator('select.dropdown-menu-lists').nth(0)).toContainText('SQL');
+test('Verifying 1st dropdown content', async ({ browser }) => {
+  const context = await browser.newContext();
+  const page = await context.newPage();
+  const dropdownPage = new dropdown(page);
+
+  await dropdownPage.openPage();
+  await dropdownPage.selectDropdownOption('dropdowm-menu-1', 'java');
+  await dropdownPage.verifyDropdownOptionText(0, 'JAVA');
+  await dropdownPage.selectDropdownOption('dropdowm-menu-1', 'C#');
+  await dropdownPage.verifyDropdownOptionText(0, 'C#');
+  await dropdownPage.selectDropdownOption('dropdowm-menu-1', 'python');
+  await dropdownPage.verifyDropdownOptionText(0, 'Python');
+  await dropdownPage.selectDropdownOption('dropdowm-menu-1', 'sql');
+  await dropdownPage.verifyDropdownOptionText(0, 'SQL');
 });
 
-test('Verifying 2nd dropdown content', async ({browser})=>
-{
-    const context = await browser.newContext();
-    const page = await context.newPage();
-    await page.goto("https://webdriveruniversity.com/Dropdown-Checkboxes-RadioButtons/index.html");
-    await page.locator('select#dropdowm-menu-2').selectOption('eclipse');
-    await expect(page.locator('select.dropdown-menu-lists').nth(1)).toContainText('Eclipse');
-    await page.locator('select#dropdowm-menu-2').selectOption('maven');
-    await expect(page.locator('select.dropdown-menu-lists').nth(1)).toContainText('Maven');
-    await page.locator('select#dropdowm-menu-2').selectOption('testng');
-    await expect(page.locator('select.dropdown-menu-lists').nth(1)).toContainText('TestNG');
-    await page.locator('select#dropdowm-menu-2').selectOption('junit');
-    await expect(page.locator('select.dropdown-menu-lists').nth(1)).toContainText('JUnit');
+test('Verifying 2nd dropdown content', async ({ browser }) => {
+  const context = await browser.newContext();
+  const page = await context.newPage();
+  const dropdownPage = new dropdown(page);
+
+  await dropdownPage.openPage();
+  await dropdownPage.selectDropdownOption('dropdowm-menu-2', 'eclipse');
+  await dropdownPage.verifyDropdownOptionText(1, 'Eclipse');
+  await dropdownPage.selectDropdownOption('dropdowm-menu-2', 'maven');
+  await dropdownPage.verifyDropdownOptionText(1, 'Maven');
+  await dropdownPage.selectDropdownOption('dropdowm-menu-2', 'testng');
+  await dropdownPage.verifyDropdownOptionText(1, 'TestNG');
+  await dropdownPage.selectDropdownOption('dropdowm-menu-2', 'junit');
+  await dropdownPage.verifyDropdownOptionText(1, 'JUnit');
 });
 
-test('Verifying 3rd dropdown content', async ({browser})=>
-{
-    const context = await browser.newContext();
-    const page = await context.newPage();
-    await page.goto("https://webdriveruniversity.com/Dropdown-Checkboxes-RadioButtons/index.html");
-    await page.locator('select#dropdowm-menu-3').selectOption('html');
-    await expect(page.locator('select.dropdown-menu-lists').nth(2)).toContainText('HTML');
-    await page.locator('select#dropdowm-menu-3').selectOption('css');
-    await expect(page.locator('select.dropdown-menu-lists').nth(2)).toContainText('CSS');
-    await page.locator('select#dropdowm-menu-3').selectOption('javascript');
-    await expect(page.locator('select.dropdown-menu-lists').nth(2)).toContainText('JavaScript');
-    await page.locator('select#dropdowm-menu-3').selectOption('jquery');
-    await expect(page.locator('select.dropdown-menu-lists').nth(2)).toContainText('JQuery');
+test('Verifying 3rd dropdown content', async ({ browser }) => {
+  const context = await browser.newContext();
+  const page = await context.newPage();
+  const dropdownPage = new dropdown(page);
+
+  await dropdownPage.openPage();
+  await dropdownPage.selectDropdownOption('dropdowm-menu-3', 'html');
+  await dropdownPage.verifyDropdownOptionText(2, 'HTML');
+  await dropdownPage.selectDropdownOption('dropdowm-menu-3', 'css');
+  await dropdownPage.verifyDropdownOptionText(2, 'CSS');
+  await dropdownPage.selectDropdownOption('dropdowm-menu-3', 'javascript');
+  await dropdownPage.verifyDropdownOptionText(2, 'JavaScript');
+  await dropdownPage.selectDropdownOption('dropdowm-menu-3', 'jquery');
+  await dropdownPage.verifyDropdownOptionText(2, 'JQuery');
 });
 
 test('Verifying checkboxes', async ({ browser }) => {
   const context = await browser.newContext();
   const page = await context.newPage();
-  await page.goto('https://webdriveruniversity.com/Dropdown-Checkboxes-RadioButtons/index.html');
+  const dropdownPage = new dropdown(page);
+
+  await dropdownPage.openPage();
 
   const checkboxValues = ['option-1', 'option-2', 'option-4'];
 
   for (const value of checkboxValues) {
-    const checkbox = await page.locator(`input[value='${value}']`);
-    await checkbox.click();
+    await dropdownPage.clickCheckboxWithValue(value);
   }
 
   const uncheckedCheckboxValues = ['option-2', 'option-4'];
 
   for (const value of uncheckedCheckboxValues) {
-    const checkbox = await page.locator(`input[value='${value}']`);
-    await checkbox.uncheck();
-    await expect(checkbox).not.toBeChecked();
+    await dropdownPage.uncheckCheckboxWithValue(value);
+    await dropdownPage.verifyCheckboxChecked(value);
   }
 
   const checkedCheckboxValues = ['option-1', 'option-3'];
 
   for (const value of checkedCheckboxValues) {
-    const checkbox = await page.locator(`input[value='${value}']`);
-    await expect(checkbox).toBeChecked();
+    await dropdownPage.verifyCheckboxChecked(value);
   }
 });
 
 test('Verifying radio buttons', async ({ browser }) => {
   const context = await browser.newContext();
   const page = await context.newPage();
-  await page.goto('https://webdriveruniversity.com/Dropdown-Checkboxes-RadioButtons/index.html');
+  const dropdownPage = new dropdown(page);
+
+  await dropdownPage.openPage();
 
   const radioValues = ['green', 'blue', 'yellow', 'orange', 'purple'];
 
   for (const value of radioValues) {
-    const radio = await page.locator(`input[value='${value}']`);
-    await radio.click();
-    await expect(radio).toBeChecked();
+    await dropdownPage.clickRadioButtonWithValue(value);
+    await dropdownPage.verifyRadioButtonChecked(value);
   }
 });
-
-
-
-
-
-  
-
-
