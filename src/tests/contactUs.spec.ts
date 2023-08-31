@@ -1,5 +1,5 @@
-const { test, expect } = require('@playwright/test');
-const { formData1, formData2, formData3, formData4 } = require('./testData');
+import { test, expect } from '@playwright/test';
+import { formData1, formData2, formData3, formData4 } from '../testData';
 
 test('Fill out the form and submit successfully', async ({ browser }) => {
   const context = await browser.newContext();
