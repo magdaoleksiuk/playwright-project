@@ -1,4 +1,4 @@
-const { devices } = require('@playwright/test');
+const { defineConfig, devices } = require('@playwright/test');
 
 /** @type {import('@playwright/test').PlaywrightTestConfig} */
 const config = {
@@ -10,6 +10,7 @@ const config = {
     //   slowMo: 1000,
     // },
     video:"on",
+    baseURL: 'https://petstore.swagger.io/v2/',
     },
   projects: [
     {
@@ -22,3 +23,4 @@ const config = {
 };
 
 module.exports = config;
+
